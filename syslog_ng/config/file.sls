@@ -24,6 +24,9 @@ syslog_ng/config/install:
     # Salt appends the path of the rendered temporary file: a configuration
     # syslog-ng rejects never replaces the running one.
     - check_cmd: syslog-ng --syntax-only -f
+    # Check the temporary file next to the real one, so that relative
+    # `@include` lines resolve as they will once it is in place.
+    - tmp_dir: {{ salt['file.dirname'](syslog_ng.syslog_ng_config) }}
     - require:
       - sls: {{ sls_package_install }}
     - context:
