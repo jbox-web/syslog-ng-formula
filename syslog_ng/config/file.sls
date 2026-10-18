@@ -21,6 +21,9 @@ syslog_ng/config/install:
     - user: root
     - group: {{ syslog_ng.rootgroup }}
     - mode: 644
+    # Salt appends the path of the rendered temporary file: a configuration
+    # syslog-ng rejects never replaces the running one.
+    - check_cmd: syslog-ng --syntax-only -f
     - require:
       - sls: {{ sls_package_install }}
     - context:
